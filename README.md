@@ -11,7 +11,7 @@ Tecnologie: **Expo (React Native) + expo-router + Firebase (Firestore)**.
 ## 1. Requisiti
 
 - Un Mac con [Node.js](https://nodejs.org) installato (versione 20 o superiore)
-- L'app **Expo Go** gratuita, scaricata sul tuo iPhone (e su quello della persona con cui condividi la dispensa)
+- L'app **Expo Go** gratuita, scaricata sul tuo iPhone (e su quello di chi vive con te)
   dall'App Store
 - Un account Google gratuito, per creare il progetto Firebase
 
@@ -74,7 +74,7 @@ Questo è il passaggio che rende i dati condivisi tra i vostri due telefoni.
    **"Sicurezza"** o "Build", a seconda della versione della console) →
    scheda **"Sign-in method"**, e attiva il provider **"Anonimo"**. Serve
    solo per far rispettare le regole di sicurezza qui sotto — non chiederà
-   mai email o password a te o al tuo ragazzo.
+   mai email o password a te o a chi vive con te.
 
 9. Sempre in Firestore, vai sulla scheda **"Regole"** e incolla queste regole,
    poi clicca **"Pubblica"**:
@@ -115,7 +115,7 @@ Si aprirà un QR code nel terminale (o in una pagina del browser).
 
 - **Sul tuo iPhone**: apri l'app **fotocamera** di iOS e inquadra il QR code,
   poi tocca la notifica che appare per aprirlo in **Expo Go**.
-- Fai lo stesso sul telefono del tuo ragazzo.
+- Fai lo stesso sul telefono di chi vive con te.
 
 > ⚠️ Le versioni recenti di **Expo Go** possono chiedere di effettuare il
 > login (anche solo per aprire un progetto in locale, sulla stessa wifi).
@@ -176,7 +176,34 @@ components/               -> pezzi di interfaccia riutilizzati tra le schermate
 
 ---
 
-## 6. Prossimo passo: TestFlight / App Store
+## 6. Idee per il futuro e personalizzazioni
+
+**Facile da personalizzare fin da subito:**
+
+- 🎨 Colori e font dell'app → `lib/theme.js`
+- 🏷️ Le 4 zone (Frigo/Dispensa/Freezer/Casa: nomi, icone, colori) → `lib/locations.js`
+  — aggiungerne una nuova (es. "Bagno" o "Garage") è questione di una riga
+- ⏰ Soglia di avviso predefinita per la scadenza → schermata Impostazioni
+  dentro l'app (si può cambiare senza toccare codice)
+
+**Funzionalità non ancora presenti, ma che avrebbero senso in futuro:**
+
+- 🔔 Notifiche push quando un prodotto sta per scadere (oggi l'avviso si
+  vede solo aprendo l'app)
+- 📊 Statistiche su cosa scade/si spreca più spesso
+- 🌙 Modalità scura
+- 🤖 Supporto Android (Expo/React Native lo permettono con pochissime
+  modifiche, il progetto oggi è pensato solo per iOS)
+- 📸 Foto del prodotto oltre al nome
+- 🗂️ Categorie personalizzabili invece delle 4 fisse
+
+Sono solo idee, non un impegno di sviluppo — se vuoi proporne altre o
+contribuire con una modifica, apri pure una **Issue** o una **Pull Request**
+su questo repository.
+
+---
+
+## 7. Prossimo passo: TestFlight / App Store
 
 Quando sarete pronti ad avere un'app "vera" (icona sulla home, niente Expo Go,
 eventualmente pubblicata sull'App Store), il percorso è:
@@ -200,3 +227,15 @@ eventualmente pubblicata sull'App Store), il percorso è:
    ```bash
    eas submit --platform ios
    ```
+
+---
+
+## 8. Sostieni il progetto
+
+Expiwise è un progetto personale, gratuito e open source. Se lo trovi utile
+e vuoi offrirmi un caffè per il tempo speso a svilupparlo, puoi farlo qui:
+
+👉 **[paypal.me/AuroraFelisari](https://paypal.me/AuroraFelisari)**
+
+Non è richiesto in alcun modo per usare l'app — è solo un modo per chi
+volesse sostenere il progetto.
