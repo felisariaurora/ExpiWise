@@ -207,6 +207,9 @@ dentro l'app, senza nemmeno aprire il codice.
 - 📊 Statistiche su cosa scade/si spreca più spesso
 - 🤖 Supporto Android
 - 🏠 Configurazione delle stanze di casa, con categorie personalizzate di conseguenza (invece delle 4 fisse attuali)
+- 📷 Scansione della data di scadenza dalla confezione, con lettura automatica del
+  testo: richiederebbe di elaborare la foto sul telefono stesso (niente servizi
+  esterni), quindi serve prima passare da Expo Go a una build personalizzata
 
 Sono solo idee, non un impegno di sviluppo.
 Se vuoi proporne altre o contribuire con una modifica, apri pure una **Issue** o una **Pull Request**
