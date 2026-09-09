@@ -202,7 +202,9 @@ dentro l'app, senza nemmeno aprire il codice.
 - 📊 Statistiche su cosa scade/si spreca più spesso
 - 🤖 Supporto Android
 - 📸 Foto del prodotto oltre al nome
-- 🗂️ Categorie personalizzabili invece delle 4 fisse
+- 🖼️ Icone più intuitive e facili da personalizzare
+- 📜 Storico prodotti: quando sono stati aggiunti alla lista della spesa e quando comprati
+- 🏠 Configurazione delle stanze di casa, con categorie personalizzate di conseguenza (invece delle 4 fisse attuali)
 
 Sono solo idee, non un impegno di sviluppo.
 Se vuoi proporne altre o contribuire con una modifica, apri pure una **Issue** o una **Pull Request**
