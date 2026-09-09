@@ -1,10 +1,27 @@
-# Expiwise — app iOS
+# 🥫 Expiwise
 
-App per tenere traccia di cibo e prodotti per la casa in frigo, dispensa, freezer,
-con lista della spesa collegata. Pensata per essere usata insieme a chi vive con te:
-i dati sono condivisi in tempo reale tra i vostri telefoni tramite un "codice famiglia".
+**Mai più "aspetta, questo non era scaduto?"**
 
-Tecnologie: **Expo (React Native) + expo-router + Firebase (Firestore)**.
+Expiwise tiene d'occhio frigo, dispensa e freezer al posto tuo — condivisa
+in tempo reale con chi vive con te. Scansioni un codice a barre, imposti
+quando vuoi essere avvisata prima della scadenza, e da lì in poi è l'app a
+ricordarti cosa sta per finire. La lista della spesa si aggiorna da sola.
+
+Niente più sprechi, niente più "pensavo l'avessi comprato tu".
+
+## Cosa include
+
+- 📷 Aggiunta prodotti scansionando il codice a barre (il nome viene
+  trovato in automatico su Open Food Facts)
+- 🧊 Quattro zone: Frigo, Dispensa, Freezer e Casa (per detersivi e simili,
+  senza obbligo di data di scadenza)
+- ⏰ Avviso configurabile (1/3/5/7 giorni prima della scadenza)
+- 🛒 Lista della spesa collegata: un tocco per spostare un prodotto tra
+  dispensa e lista
+- 👥 Dati condivisi in tempo reale tra più telefoni con un semplice
+  codice famiglia, senza bisogno di account
+
+Costruita con **Expo (React Native) + expo-router + Firebase (Firestore)**.
 
 ---
 
@@ -162,29 +179,16 @@ components/               -> pezzi di interfaccia riutilizzati tra le schermate
 
 ---
 
-## 5. Funzionalità incluse
+## 5. Idee per il futuro e personalizzazioni
 
-- Aggiunta prodotti a mano o **scansionando il codice a barre con la fotocamera
-  vera** (cerca automaticamente il nome su Open Food Facts)
-- Frigo / Dispensa / Freezer / **Casa** (per detersivi, carta igienica ecc.,
-  senza obbligo di data di scadenza)
-- Avviso configurabile (1/3/5/7 giorni prima della scadenza)
-- Lista della spesa collegata: un tocco per aggiungere un prodotto dalla
-  dispensa alla lista, un tocco per rimandare un acquisto fatto in dispensa
-- **Dati condivisi in tempo reale** tra i telefoni collegati con lo stesso
-  codice famiglia
-
----
-
-## 6. Idee per il futuro e personalizzazioni
-
-**Facile da personalizzare fin da subito:**
-
-- 🎨 Colori e font dell'app → `lib/theme.js`
-- 🏷️ Le 4 zone (Frigo/Dispensa/Freezer/Casa: nomi, icone, colori) → `lib/locations.js`
-  — aggiungerne una nuova (es. "Bagno" o "Garage") è questione di una riga
-- ⏰ Soglia di avviso predefinita per la scadenza → schermata Impostazioni
-  dentro l'app (si può cambiare senza toccare codice)
+**Pensato per essere personalizzabile.** Il codice separa in modo netto
+contenuto e logica: la palette colori e i font vivono in `lib/theme.js`,
+le zone della dispensa (Frigo/Dispensa/Freezer/Casa, con etichette, icone
+e colori) in `lib/locations.js`. Cambiare l'aspetto dell'app o aggiungere
+una nuova zona — es. "Bagno" o "Garage" — significa lavorare su un solo
+file dedicato, senza toccare il resto della logica. La soglia di avviso
+per le scadenze si cambia invece direttamente dalla schermata Impostazioni
+dentro l'app, senza nemmeno aprire il codice.
 
 **Funzionalità non ancora presenti, ma che avrebbero senso in futuro:**
 
@@ -208,7 +212,7 @@ giusto dove lasciarlo è la sezione Discussions del repository:
 
 ---
 
-## 7. Pubblicazione su App Store
+## 6. Pubblicazione su App Store
 
 Sto lavorando alla pubblicazione di Expiwise come app "vera" (icona sulla
 home, niente Expo Go) — a presto! 🚀
@@ -217,7 +221,7 @@ home, niente Expo Go) — a presto! 🚀
 
 ---
 
-## 8. Sostieni il progetto
+## 7. Sostieni il progetto
 
 Expiwise è gratuito e open source. Se ti va di offrirmi un caffè per il
 tempo speso a svilupparlo, clicca il bottone oppure inquadra il QR code
