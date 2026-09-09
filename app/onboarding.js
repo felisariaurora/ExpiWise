@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, KeyboardAvoidingView, Platform, Share } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useHousehold } from '../lib/HouseholdContext';
-import { colors, fonts } from '../lib/theme';
+import { useTheme } from '../lib/ThemeContext';
+import { fonts } from '../lib/theme';
 
 export default function Onboarding() {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
   const { setHouseholdCode, generateCode } = useHousehold();
   const [mode, setMode] = useState(null); // null | 'create' | 'join'
   const [generatedCode, setGeneratedCode] = useState('');
@@ -105,52 +108,54 @@ export default function Onboarding() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.paper,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 28,
-    gap: 14,
-  },
-  title: { fontFamily: fonts.displayExtraBold, fontSize: 22, color: colors.ink, textAlign: 'center' },
-  subtitle: { fontFamily: fonts.body, fontSize: 14, color: colors.inkSoft, textAlign: 'center', lineHeight: 20 },
-  codeBox: {
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 14,
-    paddingVertical: 18,
-    paddingHorizontal: 30,
-    marginTop: 6,
-  },
-  code: { fontFamily: fonts.displayBlack, fontSize: 30, letterSpacing: 4, color: colors.green },
-  input: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    padding: 12,
-    fontSize: 18,
-    fontFamily: fonts.displayBold,
-    textAlign: 'center',
-    letterSpacing: 3,
-    backgroundColor: colors.surface,
-    color: colors.ink,
-  },
-  error: { color: colors.red, fontFamily: fonts.body, fontSize: 12.5 },
-  primaryBtn: {
-    backgroundColor: colors.green,
-    borderRadius: 10,
-    paddingVertical: 13,
-    paddingHorizontal: 26,
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 4,
-  },
-  primaryBtnText: { color: '#fff', fontFamily: fonts.bodySemiBold, fontSize: 15 },
-  secondaryBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 10, paddingHorizontal: 16 },
-  secondaryBtnText: { color: colors.green, fontFamily: fonts.bodySemiBold, fontSize: 14 },
-  link: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 13, marginTop: 6 },
-});
+function createStyles(colors) {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.paper,
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 28,
+      gap: 14,
+    },
+    title: { fontFamily: fonts.displayExtraBold, fontSize: 22, color: colors.ink, textAlign: 'center' },
+    subtitle: { fontFamily: fonts.body, fontSize: 14, color: colors.inkSoft, textAlign: 'center', lineHeight: 20 },
+    codeBox: {
+      backgroundColor: colors.surface,
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 14,
+      paddingVertical: 18,
+      paddingHorizontal: 30,
+      marginTop: 6,
+    },
+    code: { fontFamily: fonts.displayBlack, fontSize: 30, letterSpacing: 4, color: colors.green },
+    input: {
+      width: '100%',
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      padding: 12,
+      fontSize: 18,
+      fontFamily: fonts.displayBold,
+      textAlign: 'center',
+      letterSpacing: 3,
+      backgroundColor: colors.surface,
+      color: colors.ink,
+    },
+    error: { color: colors.red, fontFamily: fonts.body, fontSize: 12.5 },
+    primaryBtn: {
+      backgroundColor: colors.green,
+      borderRadius: 10,
+      paddingVertical: 13,
+      paddingHorizontal: 26,
+      width: '100%',
+      alignItems: 'center',
+      marginTop: 4,
+    },
+    primaryBtnText: { color: '#fff', fontFamily: fonts.bodySemiBold, fontSize: 15 },
+    secondaryBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 10, paddingHorizontal: 16 },
+    secondaryBtnText: { color: colors.green, fontFamily: fonts.bodySemiBold, fontSize: 14 },
+    link: { color: colors.inkSoft, fontFamily: fonts.body, fontSize: 13, marginTop: 6 },
+  });
+}

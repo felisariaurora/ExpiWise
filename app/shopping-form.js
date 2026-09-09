@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useHousehold } from '../lib/HouseholdContext';
+import { useTheme } from '../lib/ThemeContext';
 import { addShoppingItem, updateShoppingItem } from '../lib/firestoreData';
-import { colors, fonts } from '../lib/theme';
+import { fonts } from '../lib/theme';
 import Stepper from '../components/Stepper';
 
 export default function ShoppingForm() {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
   const { householdCode } = useHousehold();
   const params = useLocalSearchParams();
   const isEdit = Boolean(params.id);
@@ -80,35 +83,37 @@ export default function ShoppingForm() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.paper, padding: 20 },
-  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
-  title: { fontFamily: fonts.displayExtraBold, fontSize: 18, color: colors.ink },
-  label: { fontFamily: fonts.body, fontSize: 12.5, color: colors.inkSoft, marginTop: 14, marginBottom: 6 },
-  input: {
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    padding: 12,
-    fontSize: 14.5,
-    fontFamily: fonts.body,
-    backgroundColor: colors.surface,
-    color: colors.ink,
-  },
-  stepperWrap: { maxWidth: 140 },
-  error: { color: colors.red, fontFamily: fonts.body, fontSize: 12.5, marginTop: 14 },
-  actions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 24 },
-  textBtn: { paddingVertical: 11, paddingHorizontal: 14 },
-  textBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: colors.inkSoft },
-  primaryBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: colors.green,
-    borderRadius: 9,
-    paddingVertical: 11,
-    paddingHorizontal: 18,
-    justifyContent: 'center',
-  },
-  primaryBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: '#fff' },
-});
+function createStyles(colors) {
+  return StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.paper, padding: 20 },
+    headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+    title: { fontFamily: fonts.displayExtraBold, fontSize: 18, color: colors.ink },
+    label: { fontFamily: fonts.body, fontSize: 12.5, color: colors.inkSoft, marginTop: 14, marginBottom: 6 },
+    input: {
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      padding: 12,
+      fontSize: 14.5,
+      fontFamily: fonts.body,
+      backgroundColor: colors.surface,
+      color: colors.ink,
+    },
+    stepperWrap: { maxWidth: 140 },
+    error: { color: colors.red, fontFamily: fonts.body, fontSize: 12.5, marginTop: 14 },
+    actions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 24 },
+    textBtn: { paddingVertical: 11, paddingHorizontal: 14 },
+    textBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: colors.inkSoft },
+    primaryBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+      backgroundColor: colors.green,
+      borderRadius: 9,
+      paddingVertical: 11,
+      paddingHorizontal: 18,
+      justifyContent: 'center',
+    },
+    primaryBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: '#fff' },
+  });
+}

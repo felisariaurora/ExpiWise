@@ -1,19 +1,26 @@
+import { useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, fonts } from '../lib/theme';
+import { useTheme } from '../lib/ThemeContext';
+import { fonts } from '../lib/theme';
 import { formatDate } from '../lib/dates';
 import { getLocation } from '../lib/locations';
 
-const STATUS_COLOR = {
-  ok: colors.green,
-  warning: colors.amber,
-  expired: colors.red,
-  household: colors.inkSoft,
-};
-
 export default function ProductRow({ product, badge, onPress, onAddToList, onDelete, justAddedToList }) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+  const statusColor = useMemo(
+    () => ({
+      ok: colors.green,
+      warning: colors.amber,
+      expired: colors.red,
+      household: colors.inkSoft,
+    }),
+    [colors]
+  );
+
   const loc = getLocation(product.location);
-  const barColor = STATUS_COLOR[product.status] || colors.inkSoft;
+  const barColor = statusColor[product.status] || colors.inkSoft;
 
   return (
     <Pressable style={styles.row} onPress={onPress}>
@@ -66,27 +73,29 @@ export default function ProductRow({ product, badge, onPress, onAddToList, onDel
   );
 }
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    gap: 10,
-    paddingVertical: 13,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
-  },
-  bar: { width: 4, borderRadius: 3 },
-  main: { flex: 1, justifyContent: 'center', gap: 4 },
-  nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  name: { fontFamily: fonts.bodySemiBold, fontSize: 15.5, color: colors.ink, flexShrink: 1 },
-  qtyPill: { backgroundColor: colors.greenSoft, borderRadius: 20, paddingHorizontal: 6, paddingVertical: 1 },
-  qtyPillText: { fontFamily: fonts.bodyMedium, fontSize: 11, color: colors.green },
-  metaRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  metaText: { fontFamily: fonts.body, fontSize: 12.5, color: colors.inkSoft },
-  dot: { color: colors.inkSoft, opacity: 0.6 },
-  side: { flexDirection: 'row', alignItems: 'center', gap: 2 },
-  badge: { alignItems: 'center', minWidth: 38, marginRight: 4 },
-  badgeBig: { fontFamily: fonts.displayExtraBold, fontSize: 18 },
-  badgeSmall: { fontFamily: fonts.body, fontSize: 10, color: colors.inkSoft, marginTop: 1 },
-  iconBtn: { padding: 6 },
-});
+function createStyles(colors) {
+  return StyleSheet.create({
+    row: {
+      flexDirection: 'row',
+      alignItems: 'stretch',
+      gap: 10,
+      paddingVertical: 13,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.line,
+    },
+    bar: { width: 4, borderRadius: 3 },
+    main: { flex: 1, justifyContent: 'center', gap: 4 },
+    nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+    name: { fontFamily: fonts.bodySemiBold, fontSize: 15.5, color: colors.ink, flexShrink: 1 },
+    qtyPill: { backgroundColor: colors.greenSoft, borderRadius: 20, paddingHorizontal: 6, paddingVertical: 1 },
+    qtyPillText: { fontFamily: fonts.bodyMedium, fontSize: 11, color: colors.green },
+    metaRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+    metaText: { fontFamily: fonts.body, fontSize: 12.5, color: colors.inkSoft },
+    dot: { color: colors.inkSoft, opacity: 0.6 },
+    side: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+    badge: { alignItems: 'center', minWidth: 38, marginRight: 4 },
+    badgeBig: { fontFamily: fonts.displayExtraBold, fontSize: 18 },
+    badgeSmall: { fontFamily: fonts.body, fontSize: 10, color: colors.inkSoft, marginTop: 1 },
+    iconBtn: { padding: 6 },
+  });
+}

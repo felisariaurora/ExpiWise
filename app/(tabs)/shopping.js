@@ -4,13 +4,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useHousehold } from '../../lib/HouseholdContext';
+import { useTheme } from '../../lib/ThemeContext';
 import { subscribeShoppingList, updateShoppingItem, deleteShoppingItem } from '../../lib/firestoreData';
-import { colors, fonts } from '../../lib/theme';
+import { fonts } from '../../lib/theme';
 import ShoppingRow from '../../components/ShoppingRow';
 import EmptyState from '../../components/EmptyState';
 
 export default function ShoppingScreen() {
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
   const { householdCode } = useHousehold();
   const [items, setItems] = useState([]);
   const [query, setQuery] = useState('');
@@ -122,69 +125,71 @@ export default function ShoppingScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.cream },
-  heroHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    backgroundColor: colors.berry,
-    marginHorizontal: 20,
-    marginTop: 12,
-    paddingVertical: 14,
-    borderRadius: 20,
-    shadowColor: colors.berryDark,
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 3,
-  },
-  brand: { fontFamily: fonts.displayExtraBold, fontSize: 19, color: '#fff' },
-  subtitle: { fontFamily: fonts.body, fontSize: 13, color: colors.inkSoft, marginTop: 8, textAlign: 'center' },
-  errorBanner: { marginHorizontal: 20, marginTop: 10, backgroundColor: colors.redSoft, borderRadius: 9, padding: 10 },
-  errorText: { fontFamily: fonts.body, fontSize: 12.5, color: colors.red },
-  searchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginHorizontal: 20,
-    marginTop: 12,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    backgroundColor: colors.surface,
-  },
-  searchInput: { flex: 1, fontFamily: fonts.body, fontSize: 14, color: colors.ink, padding: 0 },
-  list: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 100 },
-  boughtHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: 14,
-    paddingBottom: 6,
-    borderTopWidth: 1,
-    borderTopColor: colors.line,
-    marginTop: 6,
-  },
-  boughtHeaderText: { fontFamily: fonts.body, fontSize: 12.5, color: colors.inkSoft },
-  clearText: { fontFamily: fonts.bodySemiBold, fontSize: 12.5, color: colors.berry },
-  fab: {
-    position: 'absolute',
-    right: 20,
-    bottom: 24,
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: colors.berry,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 5,
-  },
-});
+function createStyles(colors) {
+  return StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.cream },
+    heroHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+      backgroundColor: colors.berry,
+      marginHorizontal: 20,
+      marginTop: 12,
+      paddingVertical: 14,
+      borderRadius: 20,
+      shadowColor: colors.berryDark,
+      shadowOpacity: 0.25,
+      shadowRadius: 6,
+      shadowOffset: { width: 0, height: 3 },
+      elevation: 3,
+    },
+    brand: { fontFamily: fonts.displayExtraBold, fontSize: 19, color: '#fff' },
+    subtitle: { fontFamily: fonts.body, fontSize: 13, color: colors.inkSoft, marginTop: 8, textAlign: 'center' },
+    errorBanner: { marginHorizontal: 20, marginTop: 10, backgroundColor: colors.redSoft, borderRadius: 9, padding: 10 },
+    errorText: { fontFamily: fonts.body, fontSize: 12.5, color: colors.red },
+    searchRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      marginHorizontal: 20,
+      marginTop: 12,
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      backgroundColor: colors.surface,
+    },
+    searchInput: { flex: 1, fontFamily: fonts.body, fontSize: 14, color: colors.ink, padding: 0 },
+    list: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 100 },
+    boughtHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingTop: 14,
+      paddingBottom: 6,
+      borderTopWidth: 1,
+      borderTopColor: colors.line,
+      marginTop: 6,
+    },
+    boughtHeaderText: { fontFamily: fonts.body, fontSize: 12.5, color: colors.inkSoft },
+    clearText: { fontFamily: fonts.bodySemiBold, fontSize: 12.5, color: colors.berry },
+    fab: {
+      position: 'absolute',
+      right: 20,
+      bottom: 24,
+      width: 54,
+      height: 54,
+      borderRadius: 27,
+      backgroundColor: colors.berry,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: '#000',
+      shadowOpacity: 0.25,
+      shadowRadius: 8,
+      shadowOffset: { width: 0, height: 4 },
+      elevation: 5,
+    },
+  });
+}

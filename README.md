@@ -7,9 +7,9 @@
 **Mai più "aspetta, ma quando scade lo yogurt?"**
 
 Expiwise tiene d'occhio frigo, dispensa e freezer al posto tuo, condivisa
-in tempo reale con chi vive con te. 
+in tempo reale con chi vive con te.
 Scansioni un codice a barre, imposti quando vuoi essere avvisato prima della scadenza, e da lì in poi è l'app a
-ricordarti cosa sta per finire. 
+ricordarti cosa sta per finire.
 La lista della spesa si aggiorna da sola.
 
 Niente più sprechi, niente più "pensavo l'avessi comprato tu".
@@ -25,6 +25,7 @@ Niente più sprechi, niente più "pensavo l'avessi comprato tu".
   dispensa e lista
 - 👥 Dati condivisi in tempo reale tra più telefoni con un semplice
   codice famiglia, senza bisogno di account
+- 🌙 Modalità scura, automatica o scelta a mano dalle Impostazioni
 
 Costruita con **Expo (React Native) + expo-router + Firebase (Firestore)**.
 
@@ -199,7 +200,6 @@ dentro l'app, senza nemmeno aprire il codice.
 
 - 🔔 Notifiche push quando un prodotto sta per scadere
 - 📊 Statistiche su cosa scade/si spreca più spesso
-- 🌙 Modalità scura
 - 🤖 Supporto Android
 - 📸 Foto del prodotto oltre al nome
 - 🗂️ Categorie personalizzabili invece delle 4 fisse

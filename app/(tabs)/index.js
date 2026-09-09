@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useHousehold } from '../../lib/HouseholdContext';
+import { useTheme } from '../../lib/ThemeContext';
 import {
   subscribeProducts,
   subscribeSettings,
@@ -13,13 +14,15 @@ import {
   updateShoppingItem,
 } from '../../lib/firestoreData';
 import { daysUntil, statusFor, badgeFor } from '../../lib/dates';
-import { colors, fonts } from '../../lib/theme';
+import { fonts } from '../../lib/theme';
 import { LOCATIONS_WITH_ALL as LOCATIONS } from '../../lib/locations';
 import ProductRow from '../../components/ProductRow';
 import EmptyState from '../../components/EmptyState';
 
 export default function PantryScreen() {
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
   const { householdCode } = useHousehold();
   const [products, setProducts] = useState([]);
   const [shoppingList, setShoppingList] = useState([]);
@@ -148,6 +151,8 @@ export default function PantryScreen() {
       <View style={styles.tabs}>
         {LOCATIONS.map((loc) => {
           const active = filterLocation === loc.id && !onlyExpiring;
+          const locColor = colors[loc.colorKey];
+          const locSoft = colors[loc.softKey];
           return (
             <Pressable
               key={loc.id}
@@ -157,10 +162,10 @@ export default function PantryScreen() {
               }}
               style={[
                 styles.tab,
-                { backgroundColor: active ? loc.color : loc.soft },
+                { backgroundColor: active ? locColor : locSoft },
               ]}
             >
-              <Text style={[styles.tabText, { color: active ? '#fff' : loc.color }]}>{loc.label}</Text>
+              <Text style={[styles.tabText, { color: active ? '#fff' : locColor }]}>{loc.label}</Text>
             </Pressable>
           );
         })}
@@ -231,109 +236,111 @@ export default function PantryScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.cream },
-  heroHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.teal,
-    marginHorizontal: 20,
-    marginTop: 12,
-    paddingVertical: 14,
-    borderRadius: 20,
-    shadowColor: colors.tealDark,
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 3,
-  },
-  brand: { fontFamily: fonts.displayExtraBold, fontSize: 19, color: '#fff' },
-  subtitle: { fontFamily: fonts.body, fontSize: 13, color: colors.inkSoft, marginTop: 8, textAlign: 'center' },
-  errorBanner: { marginHorizontal: 20, marginTop: 10, backgroundColor: colors.redSoft, borderRadius: 9, padding: 10 },
-  errorText: { fontFamily: fonts.body, fontSize: 12.5, color: colors.red },
-  alertBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginHorizontal: 20,
-    marginTop: 10,
-    backgroundColor: colors.amberSoft,
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-  },
-  alertBannerDanger: { backgroundColor: colors.redSoft },
-  alertText: { fontFamily: fonts.bodySemiBold, fontSize: 13.5 },
-  searchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginHorizontal: 20,
-    marginTop: 12,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    backgroundColor: colors.surface,
-  },
-  searchInput: { flex: 1, fontFamily: fonts.body, fontSize: 14, color: colors.ink, padding: 0 },
-  tabs: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginHorizontal: 20, marginTop: 14, alignItems: 'center' },
-  tab: { paddingVertical: 8, paddingHorizontal: 14, borderRadius: 14 },
-  tabText: { fontFamily: fonts.bodyBold, fontSize: 12.5 },
-  filterChipWrap: { paddingVertical: 0 },
-  filterChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: colors.greenSoft,
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
-  filterChipText: { fontFamily: fonts.bodySemiBold, fontSize: 12.5, color: colors.green },
-  list: { paddingHorizontal: 20, paddingBottom: 100 },
-  addCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginTop: 16,
-    marginBottom: 6,
-    backgroundColor: colors.surface,
-    borderRadius: 16,
-    padding: 14,
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 2,
-  },
-  addCardIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: colors.teal,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  addCardBody: { flex: 1 },
-  addCardTitle: { fontFamily: fonts.bodyBold, fontSize: 14.5, color: colors.ink },
-  addCardSubtitle: { fontFamily: fonts.body, fontSize: 12, color: colors.inkSoft, marginTop: 2 },
-  fab: {
-    position: 'absolute',
-    right: 20,
-    bottom: 24,
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: colors.teal,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 5,
-  },
-});
+function createStyles(colors) {
+  return StyleSheet.create({
+    container: { flex: 1, backgroundColor: colors.cream },
+    heroHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.teal,
+      marginHorizontal: 20,
+      marginTop: 12,
+      paddingVertical: 14,
+      borderRadius: 20,
+      shadowColor: colors.tealDark,
+      shadowOpacity: 0.25,
+      shadowRadius: 6,
+      shadowOffset: { width: 0, height: 3 },
+      elevation: 3,
+    },
+    brand: { fontFamily: fonts.displayExtraBold, fontSize: 19, color: '#fff' },
+    subtitle: { fontFamily: fonts.body, fontSize: 13, color: colors.inkSoft, marginTop: 8, textAlign: 'center' },
+    errorBanner: { marginHorizontal: 20, marginTop: 10, backgroundColor: colors.redSoft, borderRadius: 9, padding: 10 },
+    errorText: { fontFamily: fonts.body, fontSize: 12.5, color: colors.red },
+    alertBanner: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      marginHorizontal: 20,
+      marginTop: 10,
+      backgroundColor: colors.amberSoft,
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+    },
+    alertBannerDanger: { backgroundColor: colors.redSoft },
+    alertText: { fontFamily: fonts.bodySemiBold, fontSize: 13.5 },
+    searchRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      marginHorizontal: 20,
+      marginTop: 12,
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      paddingHorizontal: 10,
+      paddingVertical: 8,
+      backgroundColor: colors.surface,
+    },
+    searchInput: { flex: 1, fontFamily: fonts.body, fontSize: 14, color: colors.ink, padding: 0 },
+    tabs: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginHorizontal: 20, marginTop: 14, alignItems: 'center' },
+    tab: { paddingVertical: 8, paddingHorizontal: 14, borderRadius: 14 },
+    tabText: { fontFamily: fonts.bodyBold, fontSize: 12.5 },
+    filterChipWrap: { paddingVertical: 0 },
+    filterChip: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+      backgroundColor: colors.greenSoft,
+      borderRadius: 20,
+      paddingHorizontal: 10,
+      paddingVertical: 4,
+    },
+    filterChipText: { fontFamily: fonts.bodySemiBold, fontSize: 12.5, color: colors.green },
+    list: { paddingHorizontal: 20, paddingBottom: 100 },
+    addCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+      marginTop: 16,
+      marginBottom: 6,
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 14,
+      shadowColor: '#000',
+      shadowOpacity: 0.06,
+      shadowRadius: 6,
+      shadowOffset: { width: 0, height: 2 },
+      elevation: 2,
+    },
+    addCardIcon: {
+      width: 38,
+      height: 38,
+      borderRadius: 19,
+      backgroundColor: colors.teal,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    addCardBody: { flex: 1 },
+    addCardTitle: { fontFamily: fonts.bodyBold, fontSize: 14.5, color: colors.ink },
+    addCardSubtitle: { fontFamily: fonts.body, fontSize: 12, color: colors.inkSoft, marginTop: 2 },
+    fab: {
+      position: 'absolute',
+      right: 20,
+      bottom: 24,
+      width: 54,
+      height: 54,
+      borderRadius: 27,
+      backgroundColor: colors.teal,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: '#000',
+      shadowOpacity: 0.25,
+      shadowRadius: 8,
+      shadowOffset: { width: 0, height: 4 },
+      elevation: 5,
+    },
+  });
+}

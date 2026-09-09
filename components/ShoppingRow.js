@@ -1,8 +1,13 @@
+import { useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors, fonts } from '../lib/theme';
+import { useTheme } from '../lib/ThemeContext';
+import { fonts } from '../lib/theme';
 
 export default function ShoppingRow({ item, onToggle, onPress, onDelete, onMoveToStock }) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   return (
     <View style={styles.row}>
       <Pressable onPress={onToggle} hitSlop={8} style={styles.checkBtn}>
@@ -35,32 +40,34 @@ export default function ShoppingRow({ item, onToggle, onPress, onDelete, onMoveT
   );
 }
 
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
-  },
-  checkBtn: { padding: 2 },
-  main: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
-  name: { fontFamily: fonts.bodyMedium, fontSize: 15, color: colors.ink, flexShrink: 1 },
-  nameChecked: { color: colors.inkSoft, textDecorationLine: 'line-through' },
-  qtyPill: { backgroundColor: colors.greenSoft, borderRadius: 20, paddingHorizontal: 6, paddingVertical: 1 },
-  qtyPillText: { fontFamily: fonts.bodyMedium, fontSize: 11, color: colors.green },
-  moveBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    backgroundColor: colors.surface,
-  },
-  moveBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 12, color: colors.ink },
-  iconBtn: { padding: 6 },
-});
+function createStyles(colors) {
+  return StyleSheet.create({
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.line,
+    },
+    checkBtn: { padding: 2 },
+    main: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
+    name: { fontFamily: fonts.bodyMedium, fontSize: 15, color: colors.ink, flexShrink: 1 },
+    nameChecked: { color: colors.inkSoft, textDecorationLine: 'line-through' },
+    qtyPill: { backgroundColor: colors.greenSoft, borderRadius: 20, paddingHorizontal: 6, paddingVertical: 1 },
+    qtyPillText: { fontFamily: fonts.bodyMedium, fontSize: 11, color: colors.green },
+    moveBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 8,
+      paddingHorizontal: 8,
+      paddingVertical: 6,
+      backgroundColor: colors.surface,
+    },
+    moveBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 12, color: colors.ink },
+    iconBtn: { padding: 6 },
+  });
+}

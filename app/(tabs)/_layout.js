@@ -2,10 +2,12 @@ import { View, ActivityIndicator } from 'react-native';
 import { Redirect, Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useHousehold } from '../../lib/HouseholdContext';
-import { colors, fonts } from '../../lib/theme';
+import { useTheme } from '../../lib/ThemeContext';
+import { fonts } from '../../lib/theme';
 
 export default function TabsLayout() {
   const { householdCode, loading } = useHousehold();
+  const { colors } = useTheme();
 
   if (loading) {
     return (

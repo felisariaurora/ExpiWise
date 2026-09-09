@@ -1,17 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { View, Text, TextInput, Pressable, ScrollView, StyleSheet, Modal, Platform, KeyboardAvoidingView } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useHousehold } from '../lib/HouseholdContext';
+import { useTheme } from '../lib/ThemeContext';
 import { addProduct, updateProduct, deleteShoppingItem } from '../lib/firestoreData';
 import { formatDate, dateToISO } from '../lib/dates';
-import { colors, fonts } from '../lib/theme';
+import { fonts } from '../lib/theme';
 import { LOCATIONS } from '../lib/locations';
 import Stepper from '../components/Stepper';
 
 export default function ProductForm() {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
   const { householdCode } = useHousehold();
   const params = useLocalSearchParams();
   const isEdit = Boolean(params.id);
@@ -276,6 +279,8 @@ export default function ProductForm() {
 }
 
 function ScannerModal({ visible, onClose, onScanned }) {
+  const { colors } = useTheme();
+  const styles = useMemo(() => createStyles(colors), [colors]);
   const [permission, requestPermission] = useCameraPermissions();
   const scannedRef = useRef(false);
 
@@ -321,143 +326,145 @@ function ScannerModal({ visible, onClose, onScanned }) {
   );
 }
 
-const styles = StyleSheet.create({
-  flex: { flex: 1 },
-  container: { flex: 1, backgroundColor: colors.paper },
-  content: { padding: 20, paddingBottom: 40 },
-  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
-  title: { fontFamily: fonts.displayExtraBold, fontSize: 18, color: colors.ink },
-  label: { fontFamily: fonts.body, fontSize: 12.5, color: colors.inkSoft, marginTop: 14, marginBottom: 6 },
-  input: {
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    padding: 12,
-    fontSize: 14.5,
-    fontFamily: fonts.body,
-    backgroundColor: colors.surface,
-    color: colors.ink,
-  },
-  barcodeRow: { flexDirection: 'row', gap: 8, alignItems: 'stretch' },
-  inputWithIcon: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    paddingHorizontal: 12,
-    backgroundColor: colors.surface,
-  },
-  inputInline: { flex: 1, paddingVertical: 12, fontFamily: fonts.body, fontSize: 14.5, color: colors.ink },
-  scanBtn: {
-    width: 42,
-    borderRadius: 9,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  outlineBtn: {
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    paddingHorizontal: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.surface,
-  },
-  outlineBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 13.5, color: colors.ink },
-  btnDisabled: { opacity: 0.5 },
-  lookupMsg: { fontFamily: fonts.body, fontSize: 12.5, marginTop: 6 },
-  locGroup: { flexDirection: 'row', gap: 6 },
-  locBtn: {
-    flex: 1,
-    alignItems: 'center',
-    gap: 5,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    paddingVertical: 10,
-    backgroundColor: colors.surface,
-  },
-  locBtnActive: { borderColor: colors.green, backgroundColor: colors.greenSoft },
-  locBtnText: { fontFamily: fonts.body, fontSize: 11.5, color: colors.inkSoft },
-  locBtnTextActive: { color: colors.green, fontFamily: fonts.bodySemiBold },
-  formRow: { flexDirection: 'row', gap: 12 },
-  formCol: { flex: 1 },
-  dateRow: { flexDirection: 'row', gap: 8, alignItems: 'stretch' },
-  dateTextInput: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 9,
-    padding: 12,
-    fontSize: 14,
-    fontFamily: fonts.body,
-    backgroundColor: colors.surface,
-    color: colors.ink,
-  },
-  calendarBtn: {
-    width: 42,
-    borderRadius: 9,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  error: { color: colors.red, fontFamily: fonts.body, fontSize: 12.5, marginTop: 14 },
-  actions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 24 },
-  textBtn: { paddingVertical: 11, paddingHorizontal: 14 },
-  textBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: colors.inkSoft },
-  primaryBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: colors.green,
-    borderRadius: 9,
-    paddingVertical: 11,
-    paddingHorizontal: 18,
-    justifyContent: 'center',
-  },
-  primaryBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: '#fff' },
-  overlay: { flex: 1, backgroundColor: 'rgba(32,41,31,0.45)', justifyContent: 'flex-end' },
-  datePickerSheet: { backgroundColor: colors.paper, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: 20, gap: 14 },
-  scannerContainer: { flex: 1, backgroundColor: '#000' },
-  permissionBox: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 30 },
-  permissionText: { color: '#fff', fontFamily: fonts.body, fontSize: 14, textAlign: 'center' },
-  scannerFrame: {
-    position: 'absolute',
-    top: '30%',
-    left: '12%',
-    right: '12%',
-    height: '22%',
-    borderWidth: 2,
-    borderColor: '#fff',
-    borderRadius: 16,
-  },
-  scannerClose: {
-    position: 'absolute',
-    top: 56,
-    right: 20,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  scannerHint: {
-    position: 'absolute',
-    bottom: 60,
-    left: 0,
-    right: 0,
-    textAlign: 'center',
-    color: '#fff',
-    fontFamily: fonts.body,
-    fontSize: 13,
-  },
-});
+function createStyles(colors) {
+  return StyleSheet.create({
+    flex: { flex: 1 },
+    container: { flex: 1, backgroundColor: colors.paper },
+    content: { padding: 20, paddingBottom: 40 },
+    headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+    title: { fontFamily: fonts.displayExtraBold, fontSize: 18, color: colors.ink },
+    label: { fontFamily: fonts.body, fontSize: 12.5, color: colors.inkSoft, marginTop: 14, marginBottom: 6 },
+    input: {
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      padding: 12,
+      fontSize: 14.5,
+      fontFamily: fonts.body,
+      backgroundColor: colors.surface,
+      color: colors.ink,
+    },
+    barcodeRow: { flexDirection: 'row', gap: 8, alignItems: 'stretch' },
+    inputWithIcon: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      paddingHorizontal: 12,
+      backgroundColor: colors.surface,
+    },
+    inputInline: { flex: 1, paddingVertical: 12, fontFamily: fonts.body, fontSize: 14.5, color: colors.ink },
+    scanBtn: {
+      width: 42,
+      borderRadius: 9,
+      borderWidth: 1,
+      borderColor: colors.line,
+      backgroundColor: colors.surface,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    outlineBtn: {
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      paddingHorizontal: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.surface,
+    },
+    outlineBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 13.5, color: colors.ink },
+    btnDisabled: { opacity: 0.5 },
+    lookupMsg: { fontFamily: fonts.body, fontSize: 12.5, marginTop: 6 },
+    locGroup: { flexDirection: 'row', gap: 6 },
+    locBtn: {
+      flex: 1,
+      alignItems: 'center',
+      gap: 5,
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      paddingVertical: 10,
+      backgroundColor: colors.surface,
+    },
+    locBtnActive: { borderColor: colors.green, backgroundColor: colors.greenSoft },
+    locBtnText: { fontFamily: fonts.body, fontSize: 11.5, color: colors.inkSoft },
+    locBtnTextActive: { color: colors.green, fontFamily: fonts.bodySemiBold },
+    formRow: { flexDirection: 'row', gap: 12 },
+    formCol: { flex: 1 },
+    dateRow: { flexDirection: 'row', gap: 8, alignItems: 'stretch' },
+    dateTextInput: {
+      flex: 1,
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 9,
+      padding: 12,
+      fontSize: 14,
+      fontFamily: fonts.body,
+      backgroundColor: colors.surface,
+      color: colors.ink,
+    },
+    calendarBtn: {
+      width: 42,
+      borderRadius: 9,
+      borderWidth: 1,
+      borderColor: colors.line,
+      backgroundColor: colors.surface,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    error: { color: colors.red, fontFamily: fonts.body, fontSize: 12.5, marginTop: 14 },
+    actions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 24 },
+    textBtn: { paddingVertical: 11, paddingHorizontal: 14 },
+    textBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: colors.inkSoft },
+    primaryBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+      backgroundColor: colors.green,
+      borderRadius: 9,
+      paddingVertical: 11,
+      paddingHorizontal: 18,
+      justifyContent: 'center',
+    },
+    primaryBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: '#fff' },
+    overlay: { flex: 1, backgroundColor: 'rgba(32,41,31,0.45)', justifyContent: 'flex-end' },
+    datePickerSheet: { backgroundColor: colors.paper, borderTopLeftRadius: 18, borderTopRightRadius: 18, padding: 20, gap: 14 },
+    scannerContainer: { flex: 1, backgroundColor: '#000' },
+    permissionBox: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 30 },
+    permissionText: { color: '#fff', fontFamily: fonts.body, fontSize: 14, textAlign: 'center' },
+    scannerFrame: {
+      position: 'absolute',
+      top: '30%',
+      left: '12%',
+      right: '12%',
+      height: '22%',
+      borderWidth: 2,
+      borderColor: '#fff',
+      borderRadius: 16,
+    },
+    scannerClose: {
+      position: 'absolute',
+      top: 56,
+      right: 20,
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    scannerHint: {
+      position: 'absolute',
+      bottom: 60,
+      left: 0,
+      right: 0,
+      textAlign: 'center',
+      color: '#fff',
+      fontFamily: fonts.body,
+      fontSize: 13,
+    },
+  });
+}
