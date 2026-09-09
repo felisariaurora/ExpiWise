@@ -19,6 +19,14 @@ Non serve Xcode per iniziare: con Expo Go puoi provare l'app da subito.
 Xcode servirà solo più avanti, se vorrai creare una build definitiva per
 TestFlight o l'App Store.
 
+**Non hai Node.js?** Apri il Terminale e controlla con `node -v`. Se dà errore
+"command not found", installalo con [Homebrew](https://brew.sh):
+```bash
+brew install node
+```
+(Se non hai nemmeno Homebrew, il sito [brew.sh](https://brew.sh) mostra il
+comando da incollare per installarlo — richiede un paio di minuti.)
+
 ---
 
 ## 2. Crea il progetto Firebase (gratis, ~5 minuti)
@@ -55,13 +63,18 @@ Questo è il passaggio che rende i dati condivisi tra i vostri due telefoni.
    GitHub (è escluso in `.gitignore`), quindi le tue chiavi restano solo sul
    tuo computer.
 
-7. Nel menu a sinistra della console Firebase, vai su **Build → Firestore Database**,
-   clicca **"Crea database"**, scegli una zona vicina a te (es. `europe-west`) e
-   avvialo in **modalità produzione**.
+7. Nel menu a sinistra della console Firebase, cerca **Firestore Database**
+   (nelle versioni più recenti della console si trova sotto la categoria
+   **"Database e spazio di archiviazione"** invece che sotto "Build" — se
+   non trovi una voce, guarda dentro l'altra). Clicca **"Crea database"**,
+   scegli una zona vicina a te (es. `europe-west`) e avvialo in
+   **modalità produzione**.
 
-8. Nel menu a sinistra vai su **Build → Authentication → Sign-in method**,
-   e attiva il provider **"Anonimo"**. Serve solo per far rispettare le regole
-   di sicurezza qui sotto — non chiederà mai email o password a te o al tuo ragazzo.
+8. Sempre nel menu a sinistra, cerca **Authentication** (categoria
+   **"Sicurezza"** o "Build", a seconda della versione della console) →
+   scheda **"Sign-in method"**, e attiva il provider **"Anonimo"**. Serve
+   solo per far rispettare le regole di sicurezza qui sotto — non chiederà
+   mai email o password a te o al tuo ragazzo.
 
 9. Sempre in Firestore, vai sulla scheda **"Regole"** e incolla queste regole,
    poi clicca **"Pubblica"**:
@@ -95,11 +108,24 @@ npm install
 npx expo start
 ```
 
+> ⚠️ Se `npm install` si ferma con un errore `ERESOLVE` (conflitto di versioni),
+> è un problema noto di alcune dipendenze di `expo-router` e non riguarda il
+> codice di questo progetto. Rilancia con:
+> ```bash
+> npm install --legacy-peer-deps
+> ```
+
 Si aprirà un QR code nel terminale (o in una pagina del browser).
 
 - **Sul tuo iPhone**: apri l'app **fotocamera** di iOS e inquadra il QR code,
   poi tocca la notifica che appare per aprirlo in **Expo Go**.
 - Fai lo stesso sul telefono del tuo ragazzo.
+
+> ⚠️ Le versioni recenti di **Expo Go** possono chiedere di effettuare il
+> login (anche solo per aprire un progetto in locale, sulla stessa wifi).
+> Se succede: crea un account Expo gratuito (o usane uno esistente), accedi
+> con quello **sia nell'app Expo Go sul telefono** sia da terminale con
+> `npx expo login`, poi riprova a inquadrare il QR code.
 
 La prima volta, l'app vi chiederà di **creare una nuova dispensa** (genera un
 codice a 6 caratteri) oppure di **inserire un codice** esistente. Crealo su un
