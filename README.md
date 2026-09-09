@@ -208,30 +208,12 @@ giusto dove lasciarlo è la sezione Discussions del repository:
 
 ---
 
-## 7. Prossimo passo: TestFlight / App Store
+## 7. Pubblicazione su App Store
 
-Quando sarete pronti ad avere un'app "vera" (icona sulla home, niente Expo Go,
-eventualmente pubblicata sull'App Store), il percorso è:
+Sto lavorando alla pubblicazione di Expiwise come app "vera" (icona sulla
+home, niente Expo Go) — a presto! 🚀
 
-1. Crea un account [Apple Developer](https://developer.apple.com/programs/) (99$/anno).
-2. Installa lo strumento di build in cloud di Expo:
-   ```bash
-   npm install -g eas-cli
-   eas login
-   eas build:configure
-   ```
-3. In `app.json`, cambia `ios.bundleIdentifier` da `com.tuonome.expiwise`
-   a qualcosa di univoco tuo (es. `com.marcorossi.expiwise`).
-4. Avvia una build iOS in cloud (non serve toccare Xcode):
-   ```bash
-   eas build --platform ios
-   ```
-5. Quando la build è pronta, puoi caricarla su **TestFlight** per installarla
-   sui vostri iPhone come app definitiva, oppure inviarla in revisione per
-   l'App Store con:
-   ```bash
-   eas submit --platform ios
-   ```
+*— Aurora*
 
 ---
 

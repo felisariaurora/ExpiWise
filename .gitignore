@@ -37,6 +37,9 @@ yarn-error.*
 .env
 .env*.local
 
+# note personali, non pubbliche
+NOTES-*.md
+
 # typescript
 *.tsbuildinfo
 
