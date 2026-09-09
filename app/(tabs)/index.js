@@ -224,6 +224,7 @@ export default function PantryScreen() {
             product={item}
             badge={item.expiryDate ? badgeFor(item.days) : null}
             justAddedToList={flashId === item.id}
+            locationIcons={settings.locationIcons}
             onPress={() =>
               router.push({
                 pathname: '/product-form',

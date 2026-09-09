@@ -6,7 +6,7 @@ import { fonts } from '../lib/theme';
 import { formatDate } from '../lib/dates';
 import { getLocation } from '../lib/locations';
 
-export default function ProductRow({ product, badge, onPress, onAddToList, onDelete, justAddedToList }) {
+export default function ProductRow({ product, badge, onPress, onAddToList, onDelete, justAddedToList, locationIcons }) {
   const { colors } = useTheme();
   const styles = useMemo(() => createStyles(colors), [colors]);
   const statusColor = useMemo(
@@ -19,7 +19,7 @@ export default function ProductRow({ product, badge, onPress, onAddToList, onDel
     [colors]
   );
 
-  const loc = getLocation(product.location);
+  const loc = getLocation(product.location, locationIcons);
   const barColor = statusColor[product.status] || colors.inkSoft;
 
   return (
@@ -27,6 +27,10 @@ export default function ProductRow({ product, badge, onPress, onAddToList, onDel
       <View style={[styles.bar, { backgroundColor: barColor }]} />
       {product.photo ? (
         <Image source={{ uri: product.photo }} style={styles.thumb} />
+      ) : product.icon ? (
+        <View style={styles.iconThumb}>
+          <Ionicons name={product.icon} size={20} color={colors.teal} />
+        </View>
       ) : null}
       <View style={styles.main}>
         <View style={styles.nameRow}>
@@ -88,6 +92,15 @@ function createStyles(colors) {
     },
     bar: { width: 4, borderRadius: 3 },
     thumb: { width: 40, height: 40, borderRadius: 8, alignSelf: 'center' },
+    iconThumb: {
+      width: 40,
+      height: 40,
+      borderRadius: 8,
+      alignSelf: 'center',
+      backgroundColor: colors.tealSoft,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     main: { flex: 1, justifyContent: 'center', gap: 4 },
     nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
     name: { fontFamily: fonts.bodySemiBold, fontSize: 15.5, color: colors.ink, flexShrink: 1 },

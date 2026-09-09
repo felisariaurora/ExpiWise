@@ -18,7 +18,9 @@ Niente più sprechi, niente più "pensavo l'avessi comprato tu".
 
 - 📷 Aggiunta prodotti scansionando il codice a barre (il nome viene
   trovato in automatico se presente su Open Food Facts)
-- 📸 Foto facoltativa per ogni prodotto, dalla fotocamera o dalla libreria
+- 📸 Foto facoltativa per ogni prodotto, dalla fotocamera o dalla libreria —
+  oppure un'icona a scelta se non hai voglia di fare una foto
+- 🎨 Icone delle 4 zone personalizzabili dalle Impostazioni
 - 🧊 Quattro zone: Frigo, Dispensa, Freezer e Casa (per detersivi e simili,
   senza obbligo di data di scadenza)
 - ⏰ Avviso configurabile (1/3/5/7 giorni prima della scadenza), sia dentro
@@ -202,7 +204,6 @@ dentro l'app, senza nemmeno aprire il codice.
 
 - 📊 Statistiche su cosa scade/si spreca più spesso
 - 🤖 Supporto Android
-- 🖼️ Icone più intuitive e facili da personalizzare
 - 📜 Storico prodotti: quando sono stati aggiunti alla lista della spesa e quando comprati
 - 🏠 Configurazione delle stanze di casa, con categorie personalizzate di conseguenza (invece delle 4 fisse attuali)
 

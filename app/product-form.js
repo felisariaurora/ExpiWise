@@ -8,11 +8,12 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useHousehold } from '../lib/HouseholdContext';
 import { useTheme } from '../lib/ThemeContext';
-import { addProduct, updateProduct, deleteShoppingItem, getProduct } from '../lib/firestoreData';
+import { addProduct, updateProduct, deleteShoppingItem, getProduct, subscribeSettings } from '../lib/firestoreData';
 import { formatDate, dateToISO } from '../lib/dates';
 import { fonts } from '../lib/theme';
 import { LOCATIONS } from '../lib/locations';
 import Stepper from '../components/Stepper';
+import IconPickerModal from '../components/IconPickerModal';
 
 export default function ProductForm() {
   const { colors } = useTheme();
@@ -28,6 +29,9 @@ export default function ProductForm() {
   const [quantity, setQuantity] = useState(Number(params.quantity) || 1);
   const [barcode, setBarcode] = useState(params.barcode || '');
   const [photo, setPhoto] = useState('');
+  const [icon, setIcon] = useState('');
+  const [showIconPicker, setShowIconPicker] = useState(false);
+  const [locationIcons, setLocationIcons] = useState({});
   const [error, setError] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
@@ -37,8 +41,14 @@ export default function ProductForm() {
     if (!isEdit || !householdCode) return;
     getProduct(householdCode, params.id).then((p) => {
       if (p?.photo) setPhoto(p.photo);
+      if (p?.icon) setIcon(p.icon);
     });
   }, [isEdit, householdCode, params.id]);
+
+  useEffect(() => {
+    if (!householdCode) return;
+    return subscribeSettings(householdCode, (s) => setLocationIcons(s.locationIcons || {}));
+  }, [householdCode]);
 
   async function lookupBarcode(code) {
     const value = (code ?? barcode).trim();
@@ -71,6 +81,7 @@ export default function ProductForm() {
       base64: true,
     });
     setPhoto(`data:image/jpeg;base64,${manipulated.base64}`);
+    setIcon('');
   }
 
   async function capturePhoto(source) {
@@ -88,10 +99,11 @@ export default function ProductForm() {
     await processPickedImage(result.assets[0].uri);
   }
 
-  function pickPhoto() {
-    Alert.alert('Foto prodotto', undefined, [
+  function pickVisual() {
+    Alert.alert('Aspetto del prodotto', undefined, [
       { text: 'Scatta foto', onPress: () => capturePhoto('camera') },
       { text: 'Scegli dalla libreria', onPress: () => capturePhoto('library') },
+      { text: "Scegli un'icona", onPress: () => setShowIconPicker(true) },
       { text: 'Annulla', style: 'cancel' },
     ]);
   }
@@ -161,6 +173,7 @@ export default function ProductForm() {
       quantity,
       barcode: barcode.trim(),
       photo,
+      icon,
     };
     try {
       if (isEdit) {
@@ -228,8 +241,8 @@ export default function ProductForm() {
           onChangeText={setName}
         />
 
-        <Text style={styles.label}>Foto (facoltativa)</Text>
-        <Pressable style={styles.photoPicker} onPress={pickPhoto}>
+        <Text style={styles.label}>Aspetto del prodotto (facoltativo)</Text>
+        <Pressable style={styles.photoPicker} onPress={pickVisual}>
           {photo ? (
             <>
               <Image source={{ uri: photo }} style={styles.photoPreview} />
@@ -237,10 +250,19 @@ export default function ProductForm() {
                 <Ionicons name="close-circle" size={22} color="#fff" />
               </Pressable>
             </>
+          ) : icon ? (
+            <>
+              <View style={styles.iconPreview}>
+                <Ionicons name={icon} size={30} color={colors.teal} />
+              </View>
+              <Pressable style={styles.photoRemoveBtn} onPress={() => setIcon('')} hitSlop={8}>
+                <Ionicons name="close-circle" size={22} color="#fff" />
+              </Pressable>
+            </>
           ) : (
             <View style={styles.photoPlaceholder}>
               <Ionicons name="camera-outline" size={22} color={colors.inkSoft} />
-              <Text style={styles.photoPlaceholderText}>Aggiungi una foto</Text>
+              <Text style={styles.photoPlaceholderText}>Foto o icona</Text>
             </View>
           )}
         </Pressable>
@@ -249,18 +271,29 @@ export default function ProductForm() {
         <View style={styles.locGroup}>
           {LOCATIONS.map((loc) => {
             const active = location === loc.id;
+            const locIcon = locationIcons[loc.id] || loc.icon;
             return (
               <Pressable
                 key={loc.id}
                 style={[styles.locBtn, active && styles.locBtnActive]}
                 onPress={() => selectLocation(loc.id)}
               >
-                <Ionicons name={loc.icon} size={17} color={active ? colors.green : colors.inkSoft} />
+                <Ionicons name={locIcon} size={17} color={active ? colors.green : colors.inkSoft} />
                 <Text style={[styles.locBtnText, active && styles.locBtnTextActive]}>{loc.label}</Text>
               </Pressable>
             );
           })}
         </View>
+
+        <IconPickerModal
+          visible={showIconPicker}
+          selected={icon}
+          onSelect={(name) => {
+            setIcon(name);
+            setPhoto('');
+          }}
+          onClose={() => setShowIconPicker(false)}
+        />
 
         <View style={styles.formRow}>
           {location !== 'casa' && (
@@ -412,6 +445,13 @@ function createStyles(colors) {
       backgroundColor: colors.surface,
     },
     photoPreview: { width: '100%', height: '100%', borderRadius: 12 },
+    iconPreview: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 12,
+      backgroundColor: colors.tealSoft,
+    },
     photoRemoveBtn: {
       position: 'absolute',
       top: -8,

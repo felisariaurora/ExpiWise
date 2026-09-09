@@ -7,6 +7,8 @@ import { useHousehold } from '../../lib/HouseholdContext';
 import { useTheme } from '../../lib/ThemeContext';
 import { subscribeSettings, updateSettings } from '../../lib/firestoreData';
 import { fonts } from '../../lib/theme';
+import { LOCATIONS } from '../../lib/locations';
+import IconPickerModal from '../../components/IconPickerModal';
 
 const THRESHOLDS = [1, 3, 5, 7];
 const THEME_OPTIONS = [
@@ -21,6 +23,7 @@ export default function SettingsScreen() {
   const styles = useMemo(() => createStyles(colors), [colors]);
   const { householdCode, leaveHousehold } = useHousehold();
   const [settings, setSettings] = useState({ threshold: 3 });
+  const [editingLocationId, setEditingLocationId] = useState(null);
 
   useEffect(() => {
     if (!householdCode) return;
@@ -89,6 +92,19 @@ export default function SettingsScreen() {
       </View>
 
       <View style={styles.card}>
+        <Text style={styles.sectionTitle}>Icone delle zone</Text>
+        {LOCATIONS.map((loc) => (
+          <Pressable key={loc.id} style={styles.locationRow} onPress={() => setEditingLocationId(loc.id)}>
+            <View style={styles.locationIconBox}>
+              <Ionicons name={settings.locationIcons?.[loc.id] || loc.icon} size={18} color={colors.amberDark} />
+            </View>
+            <Text style={styles.locationRowText}>{loc.label}</Text>
+            <Ionicons name="chevron-forward" size={16} color={colors.inkSoft} />
+          </Pressable>
+        ))}
+      </View>
+
+      <View style={styles.card}>
         <Text style={styles.sectionTitle}>Il vostro codice famiglia</Text>
         <View style={styles.codeBox}>
           <Text style={styles.code}>{householdCode}</Text>
@@ -109,6 +125,19 @@ export default function SettingsScreen() {
       <Pressable style={styles.leaveBtn} onPress={confirmLeave}>
         <Text style={styles.leaveBtnText}>Lascia questa dispensa</Text>
       </Pressable>
+
+      <IconPickerModal
+        visible={Boolean(editingLocationId)}
+        title={editingLocationId ? `Icona per "${LOCATIONS.find((l) => l.id === editingLocationId)?.label}"` : undefined}
+        selected={editingLocationId ? settings.locationIcons?.[editingLocationId] : null}
+        onSelect={(name) =>
+          updateSettings(householdCode, {
+            ...settings,
+            locationIcons: { ...(settings.locationIcons || {}), [editingLocationId]: name },
+          })
+        }
+        onClose={() => setEditingLocationId(null)}
+      />
     </View>
   );
 }
@@ -157,6 +186,23 @@ function createStyles(colors) {
       backgroundColor: colors.cream,
     },
     chipActive: { backgroundColor: colors.pillAmber, borderColor: colors.pillAmber },
+    locationRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+      paddingVertical: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.line,
+    },
+    locationIconBox: {
+      width: 32,
+      height: 32,
+      borderRadius: 8,
+      backgroundColor: colors.pillAmberSoft,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    locationRowText: { flex: 1, fontFamily: fonts.bodyMedium, fontSize: 14, color: colors.ink },
     chipText: { fontFamily: fonts.body, fontSize: 13.5, color: colors.ink },
     chipTextActive: { color: '#fff', fontFamily: fonts.bodySemiBold },
     codeBox: {
