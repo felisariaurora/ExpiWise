@@ -12,6 +12,7 @@ import {
   deleteProduct,
   addShoppingItem,
   updateShoppingItem,
+  logWaste,
 } from '../../lib/firestoreData';
 import { daysUntil, statusFor, badgeFor } from '../../lib/dates';
 import { fonts } from '../../lib/theme';
@@ -105,6 +106,20 @@ export default function PantryScreen() {
       setTimeout(() => setFlashId(null), 1200);
     },
     [householdCode, shoppingList]
+  );
+
+  const handleDeleteProduct = useCallback(
+    async (product) => {
+      if (product.status === 'expired') {
+        await logWaste(householdCode, {
+          name: product.name,
+          location: product.location,
+          expiryDate: product.expiryDate,
+        });
+      }
+      await deleteProduct(householdCode, product.id);
+    },
+    [householdCode]
   );
 
   const openAddForm = useCallback(() => {
@@ -239,7 +254,7 @@ export default function PantryScreen() {
               })
             }
             onAddToList={() => handleAddToList(item)}
-            onDelete={() => deleteProduct(householdCode, item.id)}
+            onDelete={() => handleDeleteProduct(item)}
           />
         )}
       />

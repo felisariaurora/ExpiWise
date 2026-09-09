@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useHousehold } from '../../lib/HouseholdContext';
 import { useTheme } from '../../lib/ThemeContext';
-import { subscribeSettings, updateSettings } from '../../lib/firestoreData';
+import { subscribeSettings, updateSettings, subscribeWasteLog } from '../../lib/firestoreData';
 import { fonts } from '../../lib/theme';
 import { LOCATIONS } from '../../lib/locations';
 import IconPickerModal from '../../components/IconPickerModal';
@@ -24,11 +24,30 @@ export default function SettingsScreen() {
   const { householdCode, leaveHousehold } = useHousehold();
   const [settings, setSettings] = useState({ threshold: 3 });
   const [editingLocationId, setEditingLocationId] = useState(null);
+  const [wasteLog, setWasteLog] = useState([]);
 
   useEffect(() => {
     if (!householdCode) return;
     return subscribeSettings(householdCode, setSettings);
   }, [householdCode]);
+
+  useEffect(() => {
+    if (!householdCode) return;
+    return subscribeWasteLog(householdCode, setWasteLog);
+  }, [householdCode]);
+
+  const wasteByLocation = useMemo(() => {
+    const counts = {};
+    wasteLog.forEach((w) => {
+      counts[w.location] = (counts[w.location] || 0) + 1;
+    });
+    return LOCATIONS.map((loc) => ({
+      loc: { ...loc, icon: settings.locationIcons?.[loc.id] || loc.icon },
+      count: counts[loc.id] || 0,
+    }))
+      .filter((x) => x.count > 0)
+      .sort((a, b) => b.count - a.count);
+  }, [wasteLog, settings.locationIcons]);
 
   function confirmLeave() {
     Alert.alert(
@@ -102,6 +121,26 @@ export default function SettingsScreen() {
             <Ionicons name="chevron-forward" size={16} color={colors.inkSoft} />
           </Pressable>
         ))}
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.sectionTitle}>Statistiche spreco</Text>
+        {wasteLog.length === 0 ? (
+          <Text style={styles.statsEmpty}>Nessun prodotto scaduto buttato finora — ottimo lavoro! 🎉</Text>
+        ) : (
+          <>
+            <Text style={styles.statsTotal}>
+              {wasteLog.length} prodott{wasteLog.length === 1 ? 'o scaduto buttato' : 'i scaduti buttati'} finora
+            </Text>
+            {wasteByLocation.map(({ loc, count }) => (
+              <View key={loc.id} style={styles.statsRow}>
+                <Ionicons name={loc.icon} size={14} color={colors.inkSoft} />
+                <Text style={styles.statsRowText}>{loc.label}</Text>
+                <Text style={styles.statsRowCount}>{count}</Text>
+              </View>
+            ))}
+          </>
+        )}
       </View>
 
       <View style={styles.card}>
@@ -203,6 +242,18 @@ function createStyles(colors) {
       justifyContent: 'center',
     },
     locationRowText: { flex: 1, fontFamily: fonts.bodyMedium, fontSize: 14, color: colors.ink },
+    statsEmpty: { fontFamily: fonts.body, fontSize: 13, color: colors.inkSoft },
+    statsTotal: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: colors.ink, marginBottom: 10 },
+    statsRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      paddingVertical: 7,
+      borderTopWidth: 1,
+      borderTopColor: colors.line,
+    },
+    statsRowText: { flex: 1, fontFamily: fonts.body, fontSize: 13, color: colors.ink },
+    statsRowCount: { fontFamily: fonts.bodySemiBold, fontSize: 13, color: colors.amberDark },
     chipText: { fontFamily: fonts.body, fontSize: 13.5, color: colors.ink },
     chipTextActive: { color: '#fff', fontFamily: fonts.bodySemiBold },
     codeBox: {

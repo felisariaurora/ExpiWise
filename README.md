@@ -31,6 +31,8 @@ Niente più sprechi, niente più "pensavo l'avessi comprato tu".
   della spesa
 - 👥 Dati condivisi in tempo reale tra più telefoni con un semplice
   codice famiglia, senza bisogno di account
+- 📊 Statistiche sullo spreco: quanti prodotti scaduti hai buttato e da
+  quale zona, nelle Impostazioni
 - 🌙 Modalità scura, automatica o scelta a mano dalle Impostazioni
 
 Costruita con **Expo (React Native) + expo-router + Firebase (Firestore)**.
@@ -204,7 +206,6 @@ dentro l'app, senza nemmeno aprire il codice.
 
 **Funzionalità non ancora presenti, ma sono work in progress:**
 
-- 📊 Statistiche su cosa scade/si spreca più spesso
 - 🤖 Supporto Android
 - 🏠 Configurazione delle stanze di casa, con categorie personalizzate di conseguenza (invece delle 4 fisse attuali)
 - 📷 Scansione della data di scadenza dalla confezione, con lettura automatica del
