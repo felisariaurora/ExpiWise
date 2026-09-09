@@ -37,6 +37,13 @@
           "icon": "./assets/android-icon-monochrome.png",
           "color": "#2FA79B"
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Consenti a Expiwise di accedere alle foto per aggiungere un'immagine al prodotto.",
+          "cameraPermission": "Consenti a Expiwise di usare la fotocamera per scattare una foto al prodotto."
+        }
       ]
     ]
   }

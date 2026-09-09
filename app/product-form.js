@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { View, Text, TextInput, Pressable, ScrollView, StyleSheet, Modal, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, Image, Pressable, ScrollView, StyleSheet, Modal, Platform, KeyboardAvoidingView, Alert } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useHousehold } from '../lib/HouseholdContext';
 import { useTheme } from '../lib/ThemeContext';
-import { addProduct, updateProduct, deleteShoppingItem } from '../lib/firestoreData';
+import { addProduct, updateProduct, deleteShoppingItem, getProduct } from '../lib/firestoreData';
 import { formatDate, dateToISO } from '../lib/dates';
 import { fonts } from '../lib/theme';
 import { LOCATIONS } from '../lib/locations';
@@ -25,10 +27,18 @@ export default function ProductForm() {
   const [dateText, setDateText] = useState(formatDate(params.expiryDate || ''));
   const [quantity, setQuantity] = useState(Number(params.quantity) || 1);
   const [barcode, setBarcode] = useState(params.barcode || '');
+  const [photo, setPhoto] = useState('');
   const [error, setError] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
   const [lookup, setLookup] = useState({ loading: false, message: '', tone: '' });
+
+  useEffect(() => {
+    if (!isEdit || !householdCode) return;
+    getProduct(householdCode, params.id).then((p) => {
+      if (p?.photo) setPhoto(p.photo);
+    });
+  }, [isEdit, householdCode, params.id]);
 
   async function lookupBarcode(code) {
     const value = (code ?? barcode).trim();
@@ -52,6 +62,38 @@ export default function ProductForm() {
     } catch (e) {
       setLookup({ loading: false, message: 'Ricerca non disponibile: inserisci il nome a mano.', tone: 'warn' });
     }
+  }
+
+  async function processPickedImage(uri) {
+    const manipulated = await ImageManipulator.manipulateAsync(uri, [{ resize: { width: 480 } }], {
+      compress: 0.5,
+      format: ImageManipulator.SaveFormat.JPEG,
+      base64: true,
+    });
+    setPhoto(`data:image/jpeg;base64,${manipulated.base64}`);
+  }
+
+  async function capturePhoto(source) {
+    const permission =
+      source === 'camera'
+        ? await ImagePicker.requestCameraPermissionsAsync()
+        : await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      setError('Serve il permesso per accedere a fotocamera/libreria foto.');
+      return;
+    }
+    const launch = source === 'camera' ? ImagePicker.launchCameraAsync : ImagePicker.launchImageLibraryAsync;
+    const result = await launch({ mediaTypes: ['images'], quality: 0.7, allowsEditing: true, aspect: [1, 1] });
+    if (result.canceled || !result.assets?.[0]) return;
+    await processPickedImage(result.assets[0].uri);
+  }
+
+  function pickPhoto() {
+    Alert.alert('Foto prodotto', undefined, [
+      { text: 'Scatta foto', onPress: () => capturePhoto('camera') },
+      { text: 'Scegli dalla libreria', onPress: () => capturePhoto('library') },
+      { text: 'Annulla', style: 'cancel' },
+    ]);
   }
 
   function goBack() {
@@ -118,6 +160,7 @@ export default function ProductForm() {
       expiryDate: finalExpiryDate,
       quantity,
       barcode: barcode.trim(),
+      photo,
     };
     try {
       if (isEdit) {
@@ -184,6 +227,23 @@ export default function ProductForm() {
           value={name}
           onChangeText={setName}
         />
+
+        <Text style={styles.label}>Foto (facoltativa)</Text>
+        <Pressable style={styles.photoPicker} onPress={pickPhoto}>
+          {photo ? (
+            <>
+              <Image source={{ uri: photo }} style={styles.photoPreview} />
+              <Pressable style={styles.photoRemoveBtn} onPress={() => setPhoto('')} hitSlop={8}>
+                <Ionicons name="close-circle" size={22} color="#fff" />
+              </Pressable>
+            </>
+          ) : (
+            <View style={styles.photoPlaceholder}>
+              <Ionicons name="camera-outline" size={22} color={colors.inkSoft} />
+              <Text style={styles.photoPlaceholderText}>Aggiungi una foto</Text>
+            </View>
+          )}
+        </Pressable>
 
         <Text style={styles.label}>Dove si trova</Text>
         <View style={styles.locGroup}>
@@ -344,6 +404,32 @@ function createStyles(colors) {
       backgroundColor: colors.surface,
       color: colors.ink,
     },
+    photoPicker: {
+      width: 96,
+      height: 96,
+      borderRadius: 12,
+      overflow: 'visible',
+      backgroundColor: colors.surface,
+    },
+    photoPreview: { width: '100%', height: '100%', borderRadius: 12 },
+    photoRemoveBtn: {
+      position: 'absolute',
+      top: -8,
+      right: -8,
+      backgroundColor: colors.ink,
+      borderRadius: 11,
+    },
+    photoPlaceholder: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 4,
+      borderWidth: 1,
+      borderColor: colors.line,
+      borderRadius: 12,
+      backgroundColor: colors.surface,
+    },
+    photoPlaceholderText: { fontFamily: fonts.body, fontSize: 10.5, color: colors.inkSoft, textAlign: 'center' },
     barcodeRow: { flexDirection: 'row', gap: 8, alignItems: 'stretch' },
     inputWithIcon: {
       flex: 1,

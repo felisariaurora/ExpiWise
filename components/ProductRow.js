@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../lib/ThemeContext';
 import { fonts } from '../lib/theme';
@@ -25,6 +25,9 @@ export default function ProductRow({ product, badge, onPress, onAddToList, onDel
   return (
     <Pressable style={styles.row} onPress={onPress}>
       <View style={[styles.bar, { backgroundColor: barColor }]} />
+      {product.photo ? (
+        <Image source={{ uri: product.photo }} style={styles.thumb} />
+      ) : null}
       <View style={styles.main}>
         <View style={styles.nameRow}>
           <Text style={styles.name} numberOfLines={1}>
@@ -84,6 +87,7 @@ function createStyles(colors) {
       borderBottomColor: colors.line,
     },
     bar: { width: 4, borderRadius: 3 },
+    thumb: { width: 40, height: 40, borderRadius: 8, alignSelf: 'center' },
     main: { flex: 1, justifyContent: 'center', gap: 4 },
     nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
     name: { fontFamily: fonts.bodySemiBold, fontSize: 15.5, color: colors.ink, flexShrink: 1 },
