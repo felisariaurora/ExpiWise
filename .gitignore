@@ -30,7 +30,7 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# Claude Code (config locale, non del progetto)
+# configurazione locale dell'editor/strumenti, non del progetto
 .claude/
 
 # local env files
