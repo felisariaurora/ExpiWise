@@ -92,6 +92,7 @@ Questo è il passaggio che rende i dati condivisi tra i vostri due telefoni.
 
    ⚠️ **Nota sulla sicurezza**: con queste regole, chiunque conosca il vostro
    codice famiglia a 6 caratteri può leggere/scrivere i vostri dati.
+
 ---
 
 ## 3. Installa le dipendenze e avvia l'app
