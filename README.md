@@ -27,6 +27,8 @@ Niente più sprechi, niente più "pensavo l'avessi comprato tu".
   l'app che come notifica sul telefono
 - 🛒 Lista della spesa collegata: un tocco per spostare un prodotto tra
   dispensa e lista
+- 📜 Data di aggiunta e di acquisto visibili su ogni articolo della lista
+  della spesa
 - 👥 Dati condivisi in tempo reale tra più telefoni con un semplice
   codice famiglia, senza bisogno di account
 - 🌙 Modalità scura, automatica o scelta a mano dalle Impostazioni
@@ -204,7 +206,6 @@ dentro l'app, senza nemmeno aprire il codice.
 
 - 📊 Statistiche su cosa scade/si spreca più spesso
 - 🤖 Supporto Android
-- 📜 Storico prodotti: quando sono stati aggiunti alla lista della spesa e quando comprati
 - 🏠 Configurazione delle stanze di casa, con categorie personalizzate di conseguenza (invece delle 4 fisse attuali)
 
 Sono solo idee, non un impegno di sviluppo.

@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useHousehold } from '../../lib/HouseholdContext';
 import { useTheme } from '../../lib/ThemeContext';
-import { subscribeShoppingList, updateShoppingItem, deleteShoppingItem } from '../../lib/firestoreData';
+import { subscribeShoppingList, setShoppingItemChecked, deleteShoppingItem } from '../../lib/firestoreData';
 import { fonts } from '../../lib/theme';
 import ShoppingRow from '../../components/ShoppingRow';
 import EmptyState from '../../components/EmptyState';
@@ -109,7 +109,7 @@ export default function ShoppingScreen() {
           return (
             <ShoppingRow
               item={item}
-              onToggle={() => updateShoppingItem(householdCode, item.id, { checked: !item.checked })}
+              onToggle={() => setShoppingItemChecked(householdCode, item.id, !item.checked)}
               onPress={() => openEdit(item)}
               onDelete={() => deleteShoppingItem(householdCode, item.id)}
               onMoveToStock={() => moveToStock(item)}

@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../lib/ThemeContext';
 import { fonts } from '../lib/theme';
+import { formatDateTime } from '../lib/dates';
 
 export default function ShoppingRow({ item, onToggle, onPress, onDelete, onMoveToStock }) {
   const { colors } = useTheme();
@@ -18,14 +19,23 @@ export default function ShoppingRow({ item, onToggle, onPress, onDelete, onMoveT
         />
       </Pressable>
       <Pressable style={styles.main} onPress={onPress}>
-        <Text style={[styles.name, item.checked && styles.nameChecked]} numberOfLines={1}>
-          {item.name}
-        </Text>
-        {item.quantity > 1 && (
-          <View style={styles.qtyPill}>
-            <Text style={styles.qtyPillText}>×{item.quantity}</Text>
-          </View>
-        )}
+        <View style={styles.nameRow}>
+          <Text style={[styles.name, item.checked && styles.nameChecked]} numberOfLines={1}>
+            {item.name}
+          </Text>
+          {item.quantity > 1 && (
+            <View style={styles.qtyPill}>
+              <Text style={styles.qtyPillText}>×{item.quantity}</Text>
+            </View>
+          )}
+        </View>
+        {item.createdAt ? (
+          <Text style={styles.metaText} numberOfLines={1}>
+            {item.checked
+              ? `Comprato il ${formatDateTime(item.boughtAt || item.createdAt)}`
+              : `Aggiunto il ${formatDateTime(item.createdAt)}`}
+          </Text>
+        ) : null}
       </Pressable>
       {item.checked && (
         <Pressable style={styles.moveBtn} onPress={onMoveToStock}>
@@ -51,9 +61,11 @@ function createStyles(colors) {
       borderBottomColor: colors.line,
     },
     checkBtn: { padding: 2 },
-    main: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
+    main: { flex: 1, justifyContent: 'center', gap: 2 },
+    nameRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
     name: { fontFamily: fonts.bodyMedium, fontSize: 15, color: colors.ink, flexShrink: 1 },
     nameChecked: { color: colors.inkSoft, textDecorationLine: 'line-through' },
+    metaText: { fontFamily: fonts.body, fontSize: 11.5, color: colors.inkSoft },
     qtyPill: { backgroundColor: colors.greenSoft, borderRadius: 20, paddingHorizontal: 6, paddingVertical: 1 },
     qtyPillText: { fontFamily: fonts.bodyMedium, fontSize: 11, color: colors.green },
     moveBtn: {
