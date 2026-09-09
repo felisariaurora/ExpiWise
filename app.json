@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Expiwise",
+    "slug": "expiwise",
+    "scheme": "expiwise",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tuonome.expiwise"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Consenti a Expiwise di usare la fotocamera per scansionare i codici a barre dei prodotti."
+        }
+      ],
+      "@react-native-community/datetimepicker"
+    ]
+  }
+}

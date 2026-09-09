@@ -1,0 +1,66 @@
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { colors, fonts } from '../lib/theme';
+
+export default function ShoppingRow({ item, onToggle, onPress, onDelete, onMoveToStock }) {
+  return (
+    <View style={styles.row}>
+      <Pressable onPress={onToggle} hitSlop={8} style={styles.checkBtn}>
+        <Ionicons
+          name={item.checked ? 'checkmark-circle' : 'ellipse-outline'}
+          size={20}
+          color={item.checked ? colors.green : colors.inkSoft}
+        />
+      </Pressable>
+      <Pressable style={styles.main} onPress={onPress}>
+        <Text style={[styles.name, item.checked && styles.nameChecked]} numberOfLines={1}>
+          {item.name}
+        </Text>
+        {item.quantity > 1 && (
+          <View style={styles.qtyPill}>
+            <Text style={styles.qtyPillText}>×{item.quantity}</Text>
+          </View>
+        )}
+      </Pressable>
+      {item.checked && (
+        <Pressable style={styles.moveBtn} onPress={onMoveToStock}>
+          <Text style={styles.moveBtnText}>In dispensa</Text>
+          <Ionicons name="arrow-forward" size={13} color={colors.ink} />
+        </Pressable>
+      )}
+      <Pressable style={styles.iconBtn} onPress={onDelete} hitSlop={8}>
+        <Ionicons name="trash-outline" size={15} color={colors.inkSoft} />
+      </Pressable>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+  checkBtn: { padding: 2 },
+  main: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  name: { fontFamily: fonts.bodyMedium, fontSize: 15, color: colors.ink, flexShrink: 1 },
+  nameChecked: { color: colors.inkSoft, textDecorationLine: 'line-through' },
+  qtyPill: { backgroundColor: colors.greenSoft, borderRadius: 20, paddingHorizontal: 6, paddingVertical: 1 },
+  qtyPillText: { fontFamily: fonts.bodyMedium, fontSize: 11, color: colors.green },
+  moveBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    backgroundColor: colors.surface,
+  },
+  moveBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 12, color: colors.ink },
+  iconBtn: { padding: 6 },
+});
