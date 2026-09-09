@@ -227,15 +227,3 @@ eventualmente pubblicata sull'App Store), il percorso è:
    ```bash
    eas submit --platform ios
    ```
-
----
-
-## 8. Sostieni il progetto
-
-Expiwise è un progetto personale, gratuito e open source. Se lo trovi utile
-e vuoi offrirmi un caffè per il tempo speso a svilupparlo, puoi farlo qui:
-
-👉 **[paypal.me/AuroraFelisari](https://paypal.me/AuroraFelisari)**
-
-Non è richiesto in alcun modo per usare l'app — è solo un modo per chi
-volesse sostenere il progetto.
