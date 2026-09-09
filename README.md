@@ -1,18 +1,19 @@
 # 🥫 Expiwise
 
-**Mai più "aspetta, questo non era scaduto?"**
+**Mai più "aspetta, ma quando scade lo yogurt?"**
 
-Expiwise tiene d'occhio frigo, dispensa e freezer al posto tuo — condivisa
-in tempo reale con chi vive con te. Scansioni un codice a barre, imposti
-quando vuoi essere avvisata prima della scadenza, e da lì in poi è l'app a
-ricordarti cosa sta per finire. La lista della spesa si aggiorna da sola.
+Expiwise tiene d'occhio frigo, dispensa e freezer al posto tuo, condivisa
+in tempo reale con chi vive con te. 
+Scansioni un codice a barre, imposti quando vuoi essere avvisata prima della scadenza, e da lì in poi è l'app a
+ricordarti cosa sta per finire. 
+La lista della spesa si aggiorna da sola.
 
 Niente più sprechi, niente più "pensavo l'avessi comprato tu".
 
 ## Cosa include
 
 - 📷 Aggiunta prodotti scansionando il codice a barre (il nome viene
-  trovato in automatico su Open Food Facts)
+  trovato in automatico se presente su Open Food Facts)
 - 🧊 Quattro zone: Frigo, Dispensa, Freezer e Casa (per detersivi e simili,
   senza obbligo di data di scadenza)
 - ⏰ Avviso configurabile (1/3/5/7 giorni prima della scadenza)
@@ -28,7 +29,7 @@ Costruita con **Expo (React Native) + expo-router + Firebase (Firestore)**.
 ## 1. Requisiti
 
 - Un Mac con [Node.js](https://nodejs.org) installato (versione 20 o superiore)
-- L'app **Expo Go** gratuita, scaricata sul tuo iPhone (e su quello di chi vive con te)
+- L'app **Expo Go** gratuita, scaricata sul tuo iPhone (e sulla persona con cui condividi la dispensa)
   dall'App Store
 - Un account Google gratuito, per creare il progetto Firebase
 
@@ -42,13 +43,13 @@ TestFlight o l'App Store.
 brew install node
 ```
 (Se non hai nemmeno Homebrew, il sito [brew.sh](https://brew.sh) mostra il
-comando da incollare per installarlo — richiede un paio di minuti.)
+comando da incollare per installarlo, richiede un paio di minuti.)
 
 ---
 
 ## 2. Crea il progetto Firebase (gratis, ~5 minuti)
 
-Questo è il passaggio che rende i dati condivisi tra i vostri due telefoni.
+Questo è il passaggio che rende i dati condivisi tra i vostri due o più telefoni.
 
 1. Vai su [console.firebase.google.com](https://console.firebase.google.com) e accedi
    con un account Google.
@@ -190,19 +191,17 @@ file dedicato, senza toccare il resto della logica. La soglia di avviso
 per le scadenze si cambia invece direttamente dalla schermata Impostazioni
 dentro l'app, senza nemmeno aprire il codice.
 
-**Funzionalità non ancora presenti, ma che avrebbero senso in futuro:**
+**Funzionalità non ancora presenti, ma sono work in progress:**
 
-- 🔔 Notifiche push quando un prodotto sta per scadere (oggi l'avviso si
-  vede solo aprendo l'app)
+- 🔔 Notifiche push quando un prodotto sta per scadere
 - 📊 Statistiche su cosa scade/si spreca più spesso
 - 🌙 Modalità scura
-- 🤖 Supporto Android (Expo/React Native lo permettono con pochissime
-  modifiche, il progetto oggi è pensato solo per iOS)
+- 🤖 Supporto Android
 - 📸 Foto del prodotto oltre al nome
 - 🗂️ Categorie personalizzabili invece delle 4 fisse
 
-Sono solo idee, non un impegno di sviluppo — se vuoi proporne altre o
-contribuire con una modifica, apri pure una **Issue** o una **Pull Request**
+Sono solo idee, non un impegno di sviluppo.
+Se vuoi proporne altre o contribuire con una modifica, apri pure una **Issue** o una **Pull Request**
 su questo repository.
 
 **Hai un suggerimento, un consiglio o un'idea di miglioramento?** Il posto
