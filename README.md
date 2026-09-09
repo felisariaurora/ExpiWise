@@ -11,7 +11,7 @@ Tecnologie: **Expo (React Native) + expo-router + Firebase (Firestore)**.
 ## 1. Requisiti
 
 - Un Mac con [Node.js](https://nodejs.org) installato (versione 20 o superiore)
-- L'app **Expo Go** gratuita, scaricata sul tuo iPhone (e su quello del tuo ragazzo)
+- L'app **Expo Go** gratuita, scaricata sul tuo iPhone (e su quello della persona con cui condividi la dispensa)
   dall'App Store
 - Un account Google gratuito, per creare il progetto Firebase
 
