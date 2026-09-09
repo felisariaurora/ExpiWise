@@ -201,6 +201,11 @@ Sono solo idee, non un impegno di sviluppo — se vuoi proporne altre o
 contribuire con una modifica, apri pure una **Issue** o una **Pull Request**
 su questo repository.
 
+**Hai un suggerimento, un consiglio o un'idea di miglioramento?** Il posto
+giusto dove lasciarlo è la sezione Discussions del repository:
+
+[![Suggerimenti e idee](https://img.shields.io/badge/💬_Discussions-Lascia_un_suggerimento-8250DF?style=for-the-badge&logo=github&logoColor=white)](https://github.com/felisariaurora/ExpiWise/discussions)
+
 ---
 
 ## 7. Prossimo passo: TestFlight / App Store
@@ -227,3 +232,24 @@ eventualmente pubblicata sull'App Store), il percorso è:
    ```bash
    eas submit --platform ios
    ```
+
+---
+
+## 8. Sostieni il progetto
+
+Expiwise è gratuito e open source. Se ti va di offrirmi un caffè per il
+tempo speso a svilupparlo, clicca il bottone oppure inquadra il QR code
+con il telefono:
+
+<p>
+  <a href="https://paypal.me/AuroraFelisari">
+    <img src="https://img.shields.io/badge/PayPal-Offrimi_un_caffè-00457C?style=for-the-badge&logo=paypal&logoColor=white" alt="Dona con PayPal" />
+  </a>
+</p>
+
+<a href="https://paypal.me/AuroraFelisari">
+  <img src="assets/readme/paypal-qr.png" alt="QR code PayPal" width="160" />
+</a>
+
+Non è richiesto in alcun modo per usare l'app — è solo un modo per chi
+volesse sostenere il progetto.
