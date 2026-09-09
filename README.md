@@ -4,7 +4,7 @@
 
 Expiwise tiene d'occhio frigo, dispensa e freezer al posto tuo, condivisa
 in tempo reale con chi vive con te. 
-Scansioni un codice a barre, imposti quando vuoi essere avvisata prima della scadenza, e da lì in poi è l'app a
+Scansioni un codice a barre, imposti quando vuoi essere avvisato prima della scadenza, e da lì in poi è l'app a
 ricordarti cosa sta per finire. 
 La lista della spesa si aggiorna da sola.
 
