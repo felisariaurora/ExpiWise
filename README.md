@@ -20,7 +20,8 @@ Niente più sprechi, niente più "pensavo l'avessi comprato tu".
   trovato in automatico se presente su Open Food Facts)
 - 🧊 Quattro zone: Frigo, Dispensa, Freezer e Casa (per detersivi e simili,
   senza obbligo di data di scadenza)
-- ⏰ Avviso configurabile (1/3/5/7 giorni prima della scadenza)
+- ⏰ Avviso configurabile (1/3/5/7 giorni prima della scadenza), sia dentro
+  l'app che come notifica sul telefono
 - 🛒 Lista della spesa collegata: un tocco per spostare un prodotto tra
   dispensa e lista
 - 👥 Dati condivisi in tempo reale tra più telefoni con un semplice
@@ -198,7 +199,6 @@ dentro l'app, senza nemmeno aprire il codice.
 
 **Funzionalità non ancora presenti, ma sono work in progress:**
 
-- 🔔 Notifiche push quando un prodotto sta per scadere
 - 📊 Statistiche su cosa scade/si spreca più spesso
 - 🤖 Supporto Android
 - 📸 Foto del prodotto oltre al nome

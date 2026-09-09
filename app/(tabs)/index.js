@@ -16,6 +16,7 @@ import {
 import { daysUntil, statusFor, badgeFor } from '../../lib/dates';
 import { fonts } from '../../lib/theme';
 import { LOCATIONS_WITH_ALL as LOCATIONS } from '../../lib/locations';
+import { ensureNotificationPermission, syncExpiryNotifications } from '../../lib/notifications';
 import ProductRow from '../../components/ProductRow';
 import EmptyState from '../../components/EmptyState';
 
@@ -46,6 +47,19 @@ export default function PantryScreen() {
       unsubL();
     };
   }, [householdCode]);
+
+  useEffect(() => {
+    if (!householdCode) return;
+    (async () => {
+      try {
+        const granted = await ensureNotificationPermission();
+        if (!granted) return;
+        await syncExpiryNotifications(products, settings.threshold);
+      } catch (e) {
+        // le notifiche sono un extra: se falliscono non deve bloccare il resto dell'app
+      }
+    })();
+  }, [householdCode, products, settings.threshold]);
 
   const enriched = useMemo(() => {
     return products

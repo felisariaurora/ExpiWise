@@ -30,7 +30,14 @@
           "cameraPermission": "Consenti a Expiwise di usare la fotocamera per scansionare i codici a barre dei prodotti."
         }
       ],
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/android-icon-monochrome.png",
+          "color": "#2FA79B"
+        }
+      ]
     ]
   }
 }
