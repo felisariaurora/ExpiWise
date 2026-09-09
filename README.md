@@ -11,7 +11,7 @@ Tecnologie: **Expo (React Native) + expo-router + Firebase (Firestore)**.
 ## 1. Requisiti
 
 - Un Mac con [Node.js](https://nodejs.org) installato (versione 20 o superiore)
-- L'app **Expo Go** gratuita, scaricata sul tuo iPhone (e su quello del tuo ragazzo)
+- L'app **Expo Go** gratuita, scaricata sul tuo iPhone (e su quello della persona con cui condividi la dispensa)
   dall'App Store
 - Un account Google gratuito, per creare il progetto Firebase
 
@@ -91,12 +91,7 @@ Questo è il passaggio che rende i dati condivisi tra i vostri due telefoni.
    ```
 
    ⚠️ **Nota sulla sicurezza**: con queste regole, chiunque conosca il vostro
-   codice famiglia a 6 caratteri può leggere/scrivere i vostri dati (nessuno
-   dovrebbe indovinarlo per caso, ma non è un segreto a prova di attacco
-   mirato). Va benissimo per un uso personale tra voi due. Se in futuro
-   pubblichi l'app per altri utenti, vale la pena irrobustire questa parte
-   (es. autenticazione vera con email, regole legate all'utente autenticato).
-
+   codice famiglia a 6 caratteri può leggere/scrivere i vostri dati.
 ---
 
 ## 3. Installa le dipendenze e avvia l'app
@@ -204,6 +199,3 @@ eventualmente pubblicata sull'App Store), il percorso è:
    ```bash
    eas submit --platform ios
    ```
-
-Se in quel momento vuoi una mano a configurare `eas.json`, gli screenshot per
-l'App Store o la scheda del prodotto, chiedi pure.
