@@ -1,4 +1,8 @@
-# 🥫 Expiwise
+<p align="center">
+  <img src="assets/icon.png" alt="Icona Expiwise" width="120" />
+</p>
+
+<h1 align="center">Expiwise</h1>
 
 **Mai più "aspetta, ma quando scade lo yogurt?"**
 
