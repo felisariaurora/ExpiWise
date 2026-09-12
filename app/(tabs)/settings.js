@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { View, Text, Pressable, StyleSheet, Alert, Share } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet, Alert, Share } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -69,6 +69,7 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
       <View style={[styles.heroHeader, { marginTop: insets.top + 12 }]}>
         <Ionicons name="settings" size={18} color="#fff" />
         <Text style={styles.brand}>Impostazioni</Text>
@@ -164,6 +165,7 @@ export default function SettingsScreen() {
       <Pressable style={styles.leaveBtn} onPress={confirmLeave}>
         <Text style={styles.leaveBtnText}>Lascia questa dispensa</Text>
       </Pressable>
+      </ScrollView>
 
       <IconPickerModal
         visible={Boolean(editingLocationId)}
@@ -184,6 +186,7 @@ export default function SettingsScreen() {
 function createStyles(colors) {
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.cream },
+    scrollContent: { paddingBottom: 40 },
     heroHeader: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -265,7 +268,7 @@ function createStyles(colors) {
     code: { fontFamily: fonts.displayBlack, fontSize: 24, letterSpacing: 4, color: colors.amberDark },
     rowBtn: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 12, paddingVertical: 6 },
     rowBtnText: { fontFamily: fonts.bodySemiBold, fontSize: 14, color: colors.amberDark },
-    leaveBtn: { marginTop: 'auto', marginHorizontal: 20, marginBottom: 30, alignItems: 'center', paddingVertical: 12 },
+    leaveBtn: { marginTop: 24, marginHorizontal: 20, alignItems: 'center', paddingVertical: 12 },
     leaveBtnText: { fontFamily: fonts.bodyMedium, fontSize: 13.5, color: colors.red },
   });
 }
